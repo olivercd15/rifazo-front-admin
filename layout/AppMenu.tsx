@@ -16,6 +16,15 @@ const AppMenu = () => {
             items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
         },
         {
+            label: 'Admin',
+            items: [
+                { label: 'Rifas', icon: 'pi pi-fw pi-gift', to: '/raffles' },
+                { label: 'Qr de pago', icon: 'pi pi-fw pi-qrcode', to: '/qrimages' },
+                { label: 'Comprobantes de pago', icon: 'pi pi-fw pi-money-bill', to: '/qrvouchers' }
+            ]
+        },
+        /*
+        {
             label: 'UI Components',
             items: [
                 { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/uikit/formlayout' },
@@ -169,6 +178,7 @@ const AppMenu = () => {
                 }
             ]
         }
+        */
     ];
 
     return (
@@ -178,9 +188,6 @@ const AppMenu = () => {
                     return !item?.seperator ? <AppMenuitem item={item} root={true} index={i} key={item.label} /> : <li className="menu-separator"></li>;
                 })}
 
-                <Link href="https://blocks.primereact.org" target="_blank" style={{ cursor: 'pointer' }}>
-                    <img alt="Prime Blocks" className="w-full mt-3" src={`/layout/images/banner-primeblocks${layoutConfig.colorScheme === 'light' ? '' : '-dark'}.png`} />
-                </Link>
             </ul>
         </MenuProvider>
     );
