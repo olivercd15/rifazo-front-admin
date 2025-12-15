@@ -23,7 +23,8 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         topbarmenubutton: topbarmenubuttonRef.current
     }));
 
-    const profileMenuRef = useRef(null);
+    const profileMenuRef = useRef<Menu | null>(null);
+
 
     const profileItems = [
         {
@@ -56,7 +57,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
 
             <div ref={topbarmenuRef} className={classNames('layout-topbar-menu', { 'layout-topbar-menu-mobile-active': layoutState.profileSidebarVisible })}>
                 <Menu model={profileItems} popup ref={profileMenuRef} />
-                <button type="button" className="p-link layout-topbar-button" onClick={(e) => profileMenuRef.current.toggle(e)}>
+                <button type="button" className="p-link layout-topbar-button" onClick={(e) => profileMenuRef.current?.toggle(e)}>
                     <i className="pi pi-user"></i>
                     <span>Profile</span>
                 </button>
