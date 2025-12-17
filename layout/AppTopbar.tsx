@@ -23,8 +23,8 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         topbarmenubutton: topbarmenubuttonRef.current
     }));
 
-    const profileMenuRef = useRef<Menu | null>(null);
 
+    const profileMenuRef = useRef<Menu | null>(null);
 
     const profileItems = [
         {

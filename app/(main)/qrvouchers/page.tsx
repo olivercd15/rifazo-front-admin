@@ -7,19 +7,20 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { FilterMatchMode } from 'primereact/api';
 import { classNames } from 'primereact/utils';
+import { getQrVouchers } from '@/services/qr.service';
+
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 /**
  * 👉 Servicio real
  */
-import { getQrVouchers } from '@/services/qr.service';
 
 type VoucherImage = {
     id: string;
     name: string;
     url_image: string;
-    is_enabled: boolean;
+    status: string;
     created_at: string;
 };
 
@@ -82,16 +83,6 @@ const TableQrVouchers = () => {
         );
     };
 
-    const enabledBodyTemplate = (row: VoucherImage) => {
-        return (
-            <i
-                className={classNames('pi', {
-                    'pi-check-circle text-green-500': row.is_enabled,
-                    'pi-times-circle text-red-500': !row.is_enabled
-                })}
-            />
-        );
-    };
 
     const dateBodyTemplate = (row: VoucherImage) => {
         return new Date(row.created_at).toLocaleDateString('es-BO', {
@@ -101,6 +92,11 @@ const TableQrVouchers = () => {
         });
     };
 
+    const statusOrderBodyTemplate = (rowData: VoucherImage) => {
+        return <span className={`order-badge order-${rowData.status?.toLowerCase()}`}>{rowData.status}</span>;
+    };
+
+
     return (
         <div className="grid">
             <div className="col-12">
@@ -108,7 +104,7 @@ const TableQrVouchers = () => {
                     <DataTable value={data} paginator rows={10} loading={loading} filters={filters} globalFilterFields={['name']} header={header} emptyMessage="No se encontraron comprobantes" showGridlines responsiveLayout="scroll">
                         <Column field="raffle_title" header="Rifa" sortable />
                         <Column header="Comprobante" body={imageBodyTemplate} />
-                        <Column field="is_enabled" header="Activo" body={enabledBodyTemplate} style={{ textAlign: 'center' }} />
+                        <Column field="status" header="Status" body={statusOrderBodyTemplate} sortable></Column>
                         <Column field="created_at" header="Fecha creación" body={dateBodyTemplate} sortable />
                     </DataTable>
                 </div>
