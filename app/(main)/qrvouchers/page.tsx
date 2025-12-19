@@ -7,10 +7,9 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { FilterMatchMode } from 'primereact/api';
 import { classNames } from 'primereact/utils';
-import { getQrVouchers } from '@/services/qr.service';
+import { getQrVouchers } from '@/services/voucher.service';
 
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 /**
  * 👉 Servicio real
@@ -31,6 +30,8 @@ const TableQrVouchers = () => {
     const [filters, setFilters] = useState<any>({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS }
     });
+    const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
 
     useEffect(() => {
         loadData();

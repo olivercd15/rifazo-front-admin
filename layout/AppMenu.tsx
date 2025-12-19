@@ -19,7 +19,9 @@ const AppMenu = () => {
             label: 'Admin',
             items: [
                 { label: 'Rifas', icon: 'pi pi-fw pi-gift', to: '/raffles' },
-                { label: 'Qr de pago', icon: 'pi pi-fw pi-qrcode', to: '/qrimages' },
+                { label: 'Tickets', icon: 'pi pi-fw pi-ticket', to: '/tickets' },
+                { label: 'Payments', icon: 'pi pi-fw pi-dollar', to: '/payments' },
+                { label: 'Qr de pago', icon: 'pi pi-fw pi-qrcode', to: '/qr' },
                 { label: 'Comprobantes de pago', icon: 'pi pi-fw pi-money-bill', to: '/qrvouchers' }
             ]
         },

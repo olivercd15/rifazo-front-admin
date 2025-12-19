@@ -17,21 +17,29 @@ export async function supaFetch(url: string, options: any = {}) {
 
     let response = await fetch(url, config);
 
-    // Si el token expiró
+    // 🔄 Token expirado → refresh
     if (response.status === 401 || response.status === 403) {
         try {
             await refreshSession();
-
-            // Intentamos de nuevo
             config.headers.Authorization = `Bearer ${authStore.accessToken}`;
             response = await fetch(url, config);
-        } catch (e) {
+        } catch {
             throw new Error('Sesión expirada. Inicia sesión de nuevo.');
         }
     }
 
-    const data = await response.json();
-    if (!response.ok) throw new Error(JSON.stringify(data));
+    // ✅ 204 No Content (DELETE / PATCH minimal)
+    if (response.status === 204) {
+        return null;
+    }
+
+    // 🧠 Leer como texto primero (seguro)
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : null;
+
+    if (!response.ok) {
+        throw new Error(JSON.stringify(data));
+    }
 
     return data;
 }
