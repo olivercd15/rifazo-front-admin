@@ -16,7 +16,7 @@ export async function getDashboardStats() {
         activeRaffles: activeRaffles.length,
         completedRaffles: completedRaffles.length,
         pendingPayments: pendingPayments.length,
-        activeTickets: activeTickets.length
+        activeTickets: activeTickets.length,
     };
 }
 
