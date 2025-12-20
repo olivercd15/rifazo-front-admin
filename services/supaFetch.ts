@@ -9,7 +9,7 @@ export async function supaFetch(url: string, options: any = {}) {
         ...options,
         headers: {
             apikey: apikey!,
-            Authorization: `Bearer ${token}`,
+             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
             ...(options.headers || {})
         }

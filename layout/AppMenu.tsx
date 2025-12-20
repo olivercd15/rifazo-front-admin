@@ -20,7 +20,8 @@ const AppMenu = () => {
             items: [
                 { label: 'Rifas', icon: 'pi pi-fw pi-gift', to: '/raffles' },
                 { label: 'Qr de pago', icon: 'pi pi-fw pi-qrcode', to: '/qrimages' },
-                { label: 'Comprobantes de pago', icon: 'pi pi-fw pi-money-bill', to: '/qrvouchers' }
+                { label: 'Comprobantes de pago', icon: 'pi pi-fw pi-money-bill', to: '/qrvouchers' },
+                { label: 'Usuarios', icon: 'pi pi-user-plus', to: '/userProfiles' }
             ]
         },
         /*
