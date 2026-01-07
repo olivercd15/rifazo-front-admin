@@ -15,8 +15,7 @@ import {userProfiles as Profiles, updateUserProfile} from '@/types/userProfiles'
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 
-
-export const user_role = [
+const user_role = [
   { value: 'admin', label: 'Admin' },
   { value: 'premium', label: 'Premium' },
   { value: 'gold', label: 'Gold' },
@@ -24,7 +23,7 @@ export const user_role = [
 ]
 
 
-const userProfiles = () => {
+const UserProfiles = () => {
     const [email, setEmail] = useState('');
     const [fullName, setFullName] = useState('');
     const [phone, setPhone] = useState('');
@@ -267,4 +266,4 @@ const userProfiles = () => {
     );
 };
 
-export default userProfiles;
+export default UserProfiles;
