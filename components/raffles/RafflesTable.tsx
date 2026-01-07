@@ -26,6 +26,7 @@ export type Raffle = {
     winning_ticket_number: string;
     time_slot: string;
     created_at: string;
+    url_card_image?: string;
 };
 
 const statusSeverity = (status: string) => {
