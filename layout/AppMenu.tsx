@@ -13,16 +13,17 @@ const AppMenu = () => {
     const model: AppMenuItem[] = [
         {
             label: 'Home',
-            items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
+            items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/dashboard' }]
         },
         {
             label: 'Admin',
             items: [
+                { label: 'Usuarios', icon: 'pi pi-user-plus', to: '/userProfiles' },
                 { label: 'Rifas', icon: 'pi pi-fw pi-gift', to: '/raffles' },
                 { label: 'Tickets', icon: 'pi pi-fw pi-ticket', to: '/tickets' },
                 { label: 'Payments', icon: 'pi pi-fw pi-dollar', to: '/payments' },
                 { label: 'Qr de pago', icon: 'pi pi-fw pi-qrcode', to: '/qr' },
-                { label: 'Comprobantes de pago', icon: 'pi pi-fw pi-money-bill', to: '/qrvouchers' }
+                { label: 'Comprobantes de pago', icon: 'pi pi-fw pi-money-bill', to: '/qrvouchers' },
             ]
         },
         /*

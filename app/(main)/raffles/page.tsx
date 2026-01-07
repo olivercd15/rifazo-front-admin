@@ -8,6 +8,9 @@ import RafflesTable, { Raffle } from '@/components/raffles/RafflesTable';
 import RafflesForm from '@/components/raffles/RafflesForm';
 import { getRaffles } from '@/services/raffle.service';
 import { deleteRaffle } from '@/services/raffle.service';
+import AssignWinnerModal from '@/components/raffles/AssignWinnerModal';
+import { assignRaffleWinner } from '@/services/raffle.service';
+
 
 
 const RafflesPage = () => {
@@ -18,6 +21,8 @@ const RafflesPage = () => {
     const [editing, setEditing] = useState<Raffle | null>(null);
     const [showWinnerModal, setShowWinnerModal] = useState(false);
     const [selectedRaffle, setSelectedRaffle] = useState<Raffle | null>(null);
+    const [assigningWinner, setAssigningWinner] = useState(false);
+
 
     useEffect(() => {
         loadData();
@@ -88,7 +93,38 @@ const RafflesPage = () => {
                         }}
                     />
                 </Dialog>
-                
+
+                {selectedRaffle && (
+                    <AssignWinnerModal
+                        raffleId={selectedRaffle.id}
+                        visible={showWinnerModal}
+                        onHide={() => {
+                            setShowWinnerModal(false);
+                            setSelectedRaffle(null);
+                        }}
+                        onConfirm={async (ticketNumber) => {
+                            try {
+                                setAssigningWinner(true);
+
+                                await assignRaffleWinner({
+                                    raffle_id: selectedRaffle.id,
+                                    ticket_number: ticketNumber
+                                });
+
+                                setShowWinnerModal(false);
+                                setSelectedRaffle(null);
+                                loadData(); // 🔄 refresca tabla
+                            } catch (e) {
+                                alert('Error al asignar ganador');
+                                console.error(e);
+                            } finally {
+                                setAssigningWinner(false);
+                            }
+                        }}
+                    />
+                )}
+
+
             </div>
         </div>
     );
