@@ -83,3 +83,13 @@ export async function getActiveTicketsByRaffle(raffleId: string) {
 
 
 
+/* ===== GET Raffles for Dropdown ===== */
+export async function getRafflesForSelect() {
+    return supaFetch(
+        `${SUPABASE_URL}/rest/v1/raffles?select=id,title&status=eq.active&order=title.asc`
+    );
+}
+
+
+
+

@@ -24,6 +24,7 @@ const AppMenu = () => {
                 { label: 'Payments', icon: 'pi pi-fw pi-dollar', to: '/payments' },
                 { label: 'Qr de pago', icon: 'pi pi-fw pi-qrcode', to: '/qr' },
                 { label: 'Comprobantes de pago', icon: 'pi pi-fw pi-money-bill', to: '/qrvouchers' },
+                { label: 'Promos Multiplicadoras', icon: 'pi pi-fw pi-money-bill', to: '/promos-multi' },
             ]
         },
         /*
