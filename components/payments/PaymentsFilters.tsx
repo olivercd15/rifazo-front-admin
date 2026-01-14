@@ -12,7 +12,8 @@ type Props = {
 };
 
 const statusOptions = [
-    { label: 'Entregados (Revisión)', value: 'delivered' },
+    { label: 'Entregados', value: 'delivered' },
+    { label: 'Pendientes de pago', value: 'pending' },
     { label: 'Aprobados', value: 'completed' },
     { label: 'Rechazados', value: 'failed' }
 ];
