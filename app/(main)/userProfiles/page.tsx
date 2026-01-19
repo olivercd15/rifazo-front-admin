@@ -80,7 +80,9 @@ const UserProfiles = () => {
         return new Date(row.created_at).toLocaleDateString('es-BO', {
             day: '2-digit',
             month: '2-digit',
-            year: 'numeric'
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
         });
     };
 
@@ -251,7 +253,7 @@ const UserProfiles = () => {
                     </form>
                 </div>
                 <div className="card">
-                    <DataTable value={data} paginator rows={10} loading={loading} filters={filters} globalFilterFields={['full_name','email']} header={header} emptyMessage="No se encontraron Usuarios" showGridlines responsiveLayout="scroll">
+                    <DataTable value={data} paginator rows={10} loading={loading} filters={filters} globalFilterFields={['full_name','email']} header={header} emptyMessage="No se encontraron Usuarios" showGridlines responsiveLayout="scroll" sortField="created_at" sortOrder={-1}>
                         <Column field="email" header="Correo" sortable/>
                         <Column field="full_name" header="Nombre Completo" sortable/>
                         <Column field="phone" header="Celular"/>

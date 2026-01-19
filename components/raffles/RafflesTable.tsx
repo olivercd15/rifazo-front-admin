@@ -64,40 +64,26 @@ const RafflesTable = ({ data, loading, onEdit, onDelete, onAssignWinner }: Props
         setGlobalFilter(value);
     };
 
-    const formatCurrency = (value: string) =>
-        Number(value).toLocaleString('es-BO', {
-            style: 'currency',
-            currency: 'BOB'
+    const dateBodyTemplate = (row: Raffle) => {
+        return new Date(row.created_at).toLocaleDateString('es-BO', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
         });
-
-    const formatDate = (value: string) => new Date(value).toLocaleString();
-
-    const header = (
-        <div className="flex justify-content-between align-items-center">
-            <h5 className="m-0">Rifas registradas</h5>
-            <span className="p-input-icon-left">
-                <i className="pi pi-search" />
-                <InputText value={globalFilter} onChange={onGlobalFilterChange} placeholder="Buscar..." />
-            </span>
-        </div>
-    );
-
-    const actionBodyTemplate = (row: Raffle) => (
-        <div className="flex gap-2">
-            <Button icon="pi pi-pencil" rounded outlined onClick={() => onEdit(row)} />
-            <Button icon="pi pi-trash" rounded outlined severity="danger" onClick={() => onDelete(row.id)} />
-        </div>
-    );
+    };
 
     return (
-        <DataTable value={data} loading={loading} paginator rows={10} showGridlines responsiveLayout="scroll">
+        <DataTable value={data} loading={loading} paginator rows={10} showGridlines responsiveLayout="scroll" sortField="created_at" sortOrder={-1}>
             <Column field="title" header="Rifa" sortable />
-            <Column header="Premio" body={(r) => `BOB ${r.prize_value}`} />
+            <Column header="Premio" body={(r) => `BOB ${r.prize_value}`} sortable />
             <Column header="Tickets" body={(r) => `${r.tickets_sold} / ${r.max_tickets}`} />
             <Column header="Estado" body={(r) => <Tag value={r.status} severity={statusSeverity(r.status)} />} />
-            <Column header="Sorteo" body={(r) => new Date(r.draw_date).toLocaleString()} />
+            <Column header="Sorteo" body={(r) => new Date(r.draw_date).toLocaleString()} sortable />
             <Column field="time_slot" header="Horario" />
             <Column header="Ganador" body={(r) => (r.winner_id ? `Ticket #${r.winning_ticket_number}` : '—')} />
+            <Column field="created_at" header="Fecha creación" body={dateBodyTemplate} sortable />
             <Column
                 header="Acciones"
                 body={(r) => (

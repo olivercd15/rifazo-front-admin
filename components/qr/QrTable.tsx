@@ -26,6 +26,16 @@ interface Props {
     onLocalUpdate: (id: string, value: boolean) => void;
 }
 
+const dateBodyTemplate = (row: QrImage) => {
+    return new Date(row.created_at).toLocaleDateString('es-BO', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+};
+
 const QrTable = ({ data, loading, onEdit, onDelete, onLocalUpdate }: Props) => {
     const [globalFilter, setGlobalFilter] = React.useState('');
     const [filters, setFilters] = React.useState<any>({
@@ -65,7 +75,15 @@ const QrTable = ({ data, loading, onEdit, onDelete, onLocalUpdate }: Props) => {
         />
     );
 
-    const dateBodyTemplate = (row: QrImage) => new Date(row.created_at).toLocaleDateString('es-BO');
+    const dateBodyTemplate = (row: QrImage) => {
+            return new Date(row.created_at).toLocaleDateString('es-BO', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+            });
+        };
 
     const enabledBodyTemplate = (row: QrImage) => (
         <Button
@@ -79,12 +97,6 @@ const QrTable = ({ data, loading, onEdit, onDelete, onLocalUpdate }: Props) => {
         />
     );
 
-    const actionBodyTemplate = (row: QrImage) => (
-        <div className="flex gap-2">
-            <Button icon="pi pi-pencil" rounded outlined onClick={() => onEdit(row)} />
-            <Button icon="pi pi-trash" rounded outlined severity="danger" onClick={() => onDelete(row.id)} />
-        </div>
-    );
 
     const actionBodyDeleteTemplate = (row: QrImage) => (
         <div className="flex gap-2">
@@ -93,11 +105,11 @@ const QrTable = ({ data, loading, onEdit, onDelete, onLocalUpdate }: Props) => {
     );
 
     return (
-        <DataTable value={data} paginator rows={10} loading={loading} filters={filters} globalFilterFields={['name']} header={header} emptyMessage="No se encontraron QR" showGridlines responsiveLayout="scroll">
+        <DataTable value={data} paginator rows={10} loading={loading} filters={filters} globalFilterFields={['name']} header={header} emptyMessage="No se encontraron QR" showGridlines responsiveLayout="scroll" sortField="created_at" sortOrder={-1}>
             <Column field="name" header="Nombre" sortable />
             <Column header="QR" body={imageBodyTemplate} />
             <Column header="Activo" body={enabledBodyTemplate} style={{ textAlign: 'center' }} />
-            <Column header="Fecha creación" body={dateBodyTemplate} sortable />
+            <Column field="created_at" header="Fecha creación" body={dateBodyTemplate} sortable />
             <Column header="Acciones" body={actionBodyDeleteTemplate} />
         </DataTable>
     );

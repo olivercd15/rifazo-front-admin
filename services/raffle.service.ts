@@ -91,5 +91,20 @@ export async function getRafflesForSelect() {
 }
 
 
+/* ===== READ with filters ===== */
+export async function getRafflesFiltered(params?: {
+    title?: string;
+}) {
+    const searchParams = new URLSearchParams();
+
+    searchParams.append('select', '*');
+    searchParams.append('order', 'created_at.desc');
+
+    if (params?.title) {
+        searchParams.append('title', `ilike.*${params.title}*`);
+    }
+
+    return supaFetch(`${SUPABASE_URL}/rest/v1/raffles?${searchParams.toString()}`);
+}
 
 

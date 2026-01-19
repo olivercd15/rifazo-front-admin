@@ -89,7 +89,9 @@ const TableQrVouchers = () => {
         return new Date(row.created_at).toLocaleDateString('es-BO', {
             day: '2-digit',
             month: '2-digit',
-            year: 'numeric'
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
         });
     };
 
@@ -102,7 +104,7 @@ const TableQrVouchers = () => {
         <div className="grid">
             <div className="col-12">
                 <div className="card">
-                    <DataTable value={data} paginator rows={10} loading={loading} filters={filters} globalFilterFields={['name']} header={header} emptyMessage="No se encontraron comprobantes" showGridlines responsiveLayout="scroll">
+                    <DataTable value={data} paginator rows={10} loading={loading} filters={filters} globalFilterFields={['name']} header={header} emptyMessage="No se encontraron comprobantes" showGridlines responsiveLayout="scroll" sortField="created_at" sortOrder={-1}>
                         <Column field="raffle_title" header="Rifa" sortable />
                         <Column header="Comprobante" body={imageBodyTemplate} />
                         <Column field="status" header="Status" body={statusOrderBodyTemplate} sortable></Column>

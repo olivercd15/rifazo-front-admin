@@ -15,6 +15,7 @@ export type AdminPromoMulti = {
     starts_at: string;
     ends_at: string;
     created_at: string;
+    min_ticket_quantity: number;
 
     raffle_id: string;
     raffle_title: string;
@@ -28,6 +29,16 @@ type Props = {
     onToggle: (promo: AdminPromoMulti) => void;
 };
 
+const dateBodyTemplate = (row: AdminPromoMulti) => {
+        return new Date(row.created_at).toLocaleDateString('es-BO', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+    };
+
 const PromoMultiTable = ({ data, loading, onEdit, onDelete, onToggle }: Props) => {
     return (
         <DataTable
@@ -38,6 +49,7 @@ const PromoMultiTable = ({ data, loading, onEdit, onDelete, onToggle }: Props) =
             showGridlines
             responsiveLayout="scroll"
             emptyMessage="No se encontraron promociones"
+            sortField="created_at" sortOrder={-1}
         >
             <Column field="name" header="Promoción" sortable />
             <Column field="raffle_title" header="Rifa" sortable />
@@ -46,6 +58,7 @@ const PromoMultiTable = ({ data, loading, onEdit, onDelete, onToggle }: Props) =
                 body={(row) => `÷ ${row.factor}`}
                 sortable
             />
+            <Column field="min_ticket_quantity" header="Cant. min." sortable />
             <Column
                 header="Estado"
                 body={(row) => (
@@ -63,6 +76,7 @@ const PromoMultiTable = ({ data, loading, onEdit, onDelete, onToggle }: Props) =
                     ).toLocaleDateString()}`
                 }
             />
+            <Column field="created_at" header="Fecha creación" body={dateBodyTemplate} sortable />
             <Column
                 header="Acciones"
                 body={(row) => (

@@ -44,16 +44,31 @@ const statusSeverity = (status: string) => {
     }
 };
 
+const dateBodyTemplate = (row: AdminTicket) => {
+    return new Date(row.ticket_reserved_at).toLocaleDateString('es-BO', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+};
+
 const TicketsTable = ({ data, loading, onCancel }: Props) => {
     return (
-        <DataTable value={data} paginator rows={10} loading={loading} showGridlines responsiveLayout="scroll" emptyMessage="No se encontraron tickets">
+        <DataTable value={data} paginator rows={10} loading={loading} showGridlines responsiveLayout="scroll" emptyMessage="No se encontraron tickets" sortField="ticket_reserved_at" sortOrder={-1}>
             <Column field="raffle_title" header="Rifa" sortable />
             <Column field="ticket_number" header="Ticket #" sortable />
             <Column field="user_name" header="Usuario" />
             <Column field="user_phone" header="Telefono" />
             <Column header="Estado" body={(row) => <Tag value={row.ticket_status} severity={statusSeverity(row.ticket_status)} />} />
-            <Column header="Reservado" body={(row) => new Date(row.ticket_reserved_at).toLocaleString()} sortable />
             <Column header="Pago" body={(row) => row.payment_status ?? '—'} />
+            <Column
+                field="ticket_reserved_at"
+                header="Fecha Reserva"
+                body={dateBodyTemplate}
+                sortable
+            />
             <Column header="Acciones" body={(row) => (row.ticket_status === 'pending' ? <Button icon="pi pi-times" rounded outlined severity="danger" onClick={() => onCancel(row.ticket_id)} /> : '—')} />
         </DataTable>
     );

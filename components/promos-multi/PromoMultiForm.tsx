@@ -23,6 +23,7 @@ export type PromoMulti = {
     starts_at: string;
     ends_at: string;
     is_active: boolean;
+    min_ticket_quantity: number;
 };
 
 type Props = {
@@ -44,7 +45,8 @@ const PromoMultiForm = ({ initialData, onSuccess, onCancel }: Props) => {
         factor: 2,
         starts_at: '',
         ends_at: '',
-        is_active: true
+        is_active: true,
+        min_ticket_quantity: 2
     });
 
     const [loading, setLoading] = useState(false);
@@ -70,7 +72,6 @@ const PromoMultiForm = ({ initialData, onSuccess, onCancel }: Props) => {
         }
     };
 
-
     const onSubmit = async () => {
         try {
             if (!form.raffle_id || !form.name || !form.factor) {
@@ -85,9 +86,12 @@ const PromoMultiForm = ({ initialData, onSuccess, onCancel }: Props) => {
 
             setLoading(true);
 
-            const payload = {
-                ...form
-            };
+            const {
+                id,
+                raffle_title,
+                created_at,
+                ...payload
+            } = form as any;
 
             if (initialData?.id) {
                 await updatePromoMulti(initialData.id, payload);
@@ -103,6 +107,7 @@ const PromoMultiForm = ({ initialData, onSuccess, onCancel }: Props) => {
             setLoading(false);
         }
     };
+
 
     return (
         <div className="grid">
@@ -161,8 +166,22 @@ const PromoMultiForm = ({ initialData, onSuccess, onCancel }: Props) => {
                 />
             </div>
 
-            {/* Estado */}
+            {/* Cantidad minima ticket */}
             <div className="col-6">
+                <label>Cantidad minima ticket</label>
+                <InputNumber
+                    className="w-full"
+                    min={1}
+                    step={1}
+                    value={form.min_ticket_quantity}
+                    onValueChange={(e) =>
+                        setForm({ ...form, min_ticket_quantity: e.value ?? 2 })
+                    }
+                />
+            </div>
+
+            {/* Estado */}
+            <div className="col-12">
                 <label>Estado</label>
                 <Dropdown
                     className="w-full"

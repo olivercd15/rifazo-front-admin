@@ -27,6 +27,8 @@ export type AdminPayment = {
     voucher_url?: string;
     has_voucher: boolean;
     ready_for_review: boolean;
+
+
 };
 
 const severity = (s: string) => (s === 'delivered' ? 'warning' : s === 'completed' ? 'success' : s === 'failed' ? 'danger' : 'info');
@@ -40,10 +42,20 @@ type Props = {
     onReject: (id: string) => void;
 };
 
+const dateBodyTemplate = (row: AdminPayment) => {
+    return new Date(row.payment_created_at).toLocaleDateString('es-BO', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+};
+
 
 const PaymentsTable = ({ data, loading, onViewVoucher, onViewTickets, onApprove, onReject }: Props) => {
     return (
-        <DataTable value={data} loading={loading} paginator rows={10} showGridlines responsiveLayout="scroll">
+        <DataTable value={data} loading={loading} paginator rows={10} showGridlines responsiveLayout="scroll" sortField="payment_created_at" sortOrder={-1}>
             <Column field="raffle_title" header="Rifa" />
             <Column field="user_name" header="Usuario" />
             <Column field="user_phone" header="Celular" />
@@ -52,6 +64,7 @@ const PaymentsTable = ({ data, loading, onViewVoucher, onViewTickets, onApprove,
 
             <Column header="Estado" body={(r) => <Tag value={r.payment_status} severity={severity(r.payment_status)} />} />
             <Column header="Voucher" body={(r) => (r.has_voucher ? <Button icon="pi pi-image" outlined onClick={() => onViewVoucher(`${SUPABASE_URL}/storage/v1/object/public/${r.voucher_url}`!)} /> : '—')} />
+            <Column field="payment_created_at" header="Fecha creación" body={dateBodyTemplate} sortable />
             <Column
                 header="Acciones"
                 body={(r) =>

@@ -11,6 +11,9 @@ import { deleteRaffle } from '@/services/raffle.service';
 import AssignWinnerModal from '@/components/raffles/AssignWinnerModal';
 import { assignRaffleWinner } from '@/services/raffle.service';
 
+import RafflesFilters from '@/components/raffles/RafflesFilters';
+import { getRafflesFiltered } from '@/services/raffle.service';
+
 
 
 const RafflesPage = () => {
@@ -22,6 +25,8 @@ const RafflesPage = () => {
     const [showWinnerModal, setShowWinnerModal] = useState(false);
     const [selectedRaffle, setSelectedRaffle] = useState<Raffle | null>(null);
     const [assigningWinner, setAssigningWinner] = useState(false);
+    const [filterTitle, setFilterTitle] = useState('');
+
 
 
     useEffect(() => {
@@ -31,7 +36,9 @@ const RafflesPage = () => {
     const loadData = async () => {
         try {
             setLoading(true);
-            const result = await getRaffles();
+            const result = await getRafflesFiltered({
+                title: filterTitle || undefined
+            });
             setData(result);
         } finally {
             setLoading(false);
@@ -69,6 +76,15 @@ const RafflesPage = () => {
                         }}
                     />
                 </div>
+
+                <RafflesFilters
+                    title={filterTitle}
+                    onChange={(f) => {
+                        setFilterTitle(f.title || '');
+                        setTimeout(loadData, 0);
+                    }}
+                />
+
 
                 <div className="card">
                     <RafflesTable
