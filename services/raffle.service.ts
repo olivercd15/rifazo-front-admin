@@ -1,5 +1,6 @@
 import { supaFetch } from './supaFetch';
 
+
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 /* ===== READ ===== */
@@ -106,5 +107,20 @@ export async function getRafflesFiltered(params?: {
 
     return supaFetch(`${SUPABASE_URL}/rest/v1/raffles?${searchParams.toString()}`);
 }
+
+
+/* ===== EXPORT TICKET TO EXCEL ===== */
+export async function fetchTicketsReportByRaffle(raffleId: string) {
+    return supaFetch(
+        `${SUPABASE_URL}/rest/v1/rpc/fn_report_tickets_raffle`,
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ p_raffle_id: raffleId })
+        }
+    );
+}
+
+
 
 

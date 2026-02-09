@@ -7,6 +7,8 @@ import { InputText } from 'primereact/inputtext';
 import { FilterMatchMode } from 'primereact/api';
 import { Button } from 'primereact/button';
 import { Tag } from 'primereact/tag';
+import { fetchTicketsReportByRaffle } from '@/services/raffle.service';
+import { exportTicketsToExcel } from '@/utils/excel';
 
 
 
@@ -52,6 +54,16 @@ type Props = {
     onAssignWinner: (raffle: Raffle) => void;
 };
 
+const onExportExcel = async (raffle: Raffle) => {
+    try {
+        const rows = await fetchTicketsReportByRaffle(raffle.id);
+        await exportTicketsToExcel(rows, raffle.title);
+    } catch (e) {
+        console.error(e);
+        alert('Error al exportar');
+    }
+};
+
 const RafflesTable = ({ data, loading, onEdit, onDelete, onAssignWinner }: Props) => {
     const [globalFilter, setGlobalFilter] = React.useState('');
     const [filters, setFilters] = React.useState<any>({
@@ -87,8 +99,15 @@ const RafflesTable = ({ data, loading, onEdit, onDelete, onAssignWinner }: Props
             <Column
                 header="Acciones"
                 body={(r) => (
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-wrap">
                         <Button icon="pi pi-pencil" outlined onClick={() => onEdit(r)} />
+                        <Button
+                            icon="pi pi-download"
+                            outlined
+                            severity="success"
+                            onClick={() => onExportExcel(r)}
+                            tooltip="Exportar tickets a Excel"
+                        />
                         <Button icon="pi pi-trash" outlined severity="danger" onClick={() => onDelete(r.id)} />
                         {r.status === 'active' && !r.winner_id && <Button icon="pi pi-star" severity="warning" outlined onClick={() => onAssignWinner(r)} tooltip="Asignar ganador" />}
                     </div>

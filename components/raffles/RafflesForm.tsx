@@ -82,6 +82,8 @@ const RafflesForm = ({ initialData, onSuccess, onCancel }: Props) => {
 
             let payload = { ...form };
 
+            payload.stream_url = normalizeYoutubeUrl(payload.stream_url);
+
             if (cardFile && initialData?.id) {
 
                 // 1️⃣ pedir signed upload
@@ -118,6 +120,28 @@ const RafflesForm = ({ initialData, onSuccess, onCancel }: Props) => {
             setLoading(false);
         }
     };
+
+    const normalizeYoutubeUrl = (url?: string) => {
+        if (!url) return url;
+
+        const trimmed = url.trim();
+
+        // 🔥 SOLO si viene en formato LIVE
+        if (trimmed.includes('youtube.com/live/')) {
+            // cortar parámetros
+            const withoutParams = trimmed.split('?')[0];
+
+            const videoId = withoutParams.split('youtube.com/live/')[1];
+
+            if (!videoId) return trimmed;
+
+            return `https://www.youtube.com/watch?v=${videoId}`;
+        }
+
+        // ⛔ No tocar otros formatos (watch, youtu.be, etc)
+        return trimmed;
+    };
+
 
 
     return (
